@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+AUTHOR="$1"
+GREP_OPTS="$2"
+git log --author="$AUTHOR" --pretty=tformat: --numstat | grep "$GREP_OPTS" | awk "{ add += \$1 ; subs += \$2 ; loc += \$1 - \$2 } END { printf \"%10s added\n%10s removed\n%10s lines\n\",add,subs,loc }" && :

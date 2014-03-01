@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+# Output the most recent common commit between a branch (default: current) and its tracker
+# Usage: ${me/git-/git } [BRANCH1 [BRANCH2]]
+
+BRANCH=${1}
+[[ -z ${BRANCH} ]] && BRANCH=$(git branch-name)
+
+TRACKER=${2}
+[[ -z ${TRACKER} ]] && TRACKER=$(git branch-tracker ${BRANCH})
+[[ -z ${TRACKER} ]] && echo >&2 "Tracking required" && exit 1
+
+git merge-base ${BRANCH} ${TRACKER}

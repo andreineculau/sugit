@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+GIT_SVN_IGNORE=/tmp/git_svn_ignore
+GIT_IGNORED=/tmp/git_ignored
+SVN_IGNORED=/tmp/svn_ignored
+
+echo "Building list of GIT ignored files..."
+git ls-files --others -i --exclude-standard >${GIT_IGNORED}
+
+echo "Building list of SVN ignored files..."
+git svn show-ignore > ${GIT_SVN_IGNORE}
+git ls-files --others -i --exclude-from="${GIT_SVN_IGNORE}" >${SVN_IGNORED}
+
+echo "GIT but not SVN ignored"
+grep -f ${GIT_IGNORED} -v ${SVN_IGNORED}
+
+echo "SVN but not GIT ignored"
+grep -f ${SVN_IGNORED} -v ${GIT_IGNORED}

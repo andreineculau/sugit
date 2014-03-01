@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Output GIT root
+# Usage: ${me/git-/git }
+
+git rev-parse --show-toplevel 2>/dev/null

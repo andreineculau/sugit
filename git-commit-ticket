@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+STYLE=`git config branch.ticket`
+[[ -z "${STYLE}" ]] && git commit -m "${@}" && exit 0
+
+TICKET=`git ticket`
+[[ -z "${TICKET}" ]] && git commit -m "${@}" && exit 0
+
+MSG="${1}"
+if [[ -n "${MSG}" ]]; then
+    if [[ "${MSG}" =~ ":" ]]; then
+        git commit -m "${@}"
+    else
+        if [[ "${STYLE}" == "trac" ]]; then
+            TICKET="${TICKET}:"
+            [[ "${TICKET}" != "no ticket:" ]] && BUG="See ${TICKET}"
+        elif [[ "${STYLE}" == "jira" ]]; then
+            BUG="[${TICKET}]"
+        fi
+        git commit -m "${TICKET} ${MSG}" "${@:2}"
+    fi
+else
+    git commit
+fi

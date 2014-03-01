@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Apply a first empty commit
+# Usage: ${me/git-/git } [COMMIT [BRANCH]]
+
+COMMIT=${1:-"[empty] initial commit"}
+
+if $(git root); then
+    BRANCH=${2:-$(git branch-name)}
+
+    # first you need a new empty branch
+    BRANCH_TMP=${BRANCH}_tmp
+    git symbolic-ref HEAD refs/heads/${BRANCH_TMP}
+    git rm --cached -r .
+    git clean -f -d
+
+    # then you apply the same steps
+    git commit --allow-empty -m "${COMMIT}"
+    git rebase --onto ${BRANCH_TMP} --root ${BRANCH}
+    git branch -d ${BRANCH_TMP}
+else
+    git init
+    git commit --allow-empty -m "${COMMIT}"
+end

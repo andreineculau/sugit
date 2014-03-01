@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+BRANCHES="`git branch --merged ${1:master} | grep -v 'master$'`"
+echo "$BRANCHES" | xargs git branch -d

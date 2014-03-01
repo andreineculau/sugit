@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -e
+
+# Usage: git svn-clone <svn_remote> <svn_authors> <git_mirror_remote> <branch> <dir> <git-svn_args>
+
+# ref http://kris.me.uk/2010/10/01/svn-master-with-git-mirrors.html
+# ref http://blog.tfnico.com/2011/09/git-svn-mirror-without-annoying-update.html
+# ref http://blog.tfnico.com/2013/10/more-git-svn-woes.html
+# ref https://groups.google.com/forum/#!msg/git-users/4MGOKKKZapc/RQnRe6SlQ9MJ
+
+# if [ "`git --version`" != "git version 1.8.1.2" ]; then
+# echo "GIT versions 1.8.1.2 is required!"
+# return 1
+# fi
+
+SVN=${1}
+SVN_AUTHORS=${2}
+GIT=${3}
+BRANCH=${4:-master}
+DIR=${5:-project}
+SVN_ARGS=${@:6}
+#SVN_ARGS=${SVN_ARGS:-"-s"}
+
+# First clone the git-mirror repo into the local repo
+git clone -o svn ${GIT} ${DIR}
+cd ${DIR}
+
+# Do not allow `git push`
+git config remote.svn.pushURL WARNING_USE_SVN_DCOMMIT_INSTEAD_OF_PUSH
+git config remote.svn.receivepack /bin/false
+
+# Always `git pull -rebase`
+git config branch.${BRANCH}.rebase true # for the current branch
+git config branch.autosetuprebase always # for all future branches
+
+# Just making sure! Only push the current branch when pushing
+git config push.default current
+
+# Just making sure! Only merge fast forward
+git config merge.ff only
+
+# Add a duplicate remote to allow `git push origin non-svn-branch`
+git remote add origin ${GIT}
+git fetch origin
+
+# Set the Authors file
+git config svn.authorsfile ${SVN_AUTHORS}
+
+# Setup sync to/from subversion
+git svn init --prefix=svn/ ${SVN} ${SVN_ARGS}
+# In case this is a clone of a specific SVN folder (vs an entire repo with trunk/branches/tags)
+sed "s/\(refs\/remotes\/svn\/\)git\-svn/\1${BRANCH}/" -i .git/config
+# Sync subversion
+git svn rebase
+
+cd -

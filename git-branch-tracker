@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+# Output a branch's (default: current) tracker
+# Usage: ${me/git-/git } [BRANCH]
+
+BRANCH=${1}
+[[ -z ${BRANCH} ]] && BRANCH=$(git branch-name)
+
+git for-each-ref --format="%(upstream:short)" ${BRANCH} 2>/dev/null

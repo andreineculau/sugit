@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+# Update a reviewboard review requesta
+# Usage: ${me/git-/git } ID "RANGE [DIFF_ARGS]" [RBT_ARGS]
+
+RBT_ARGS=${@:2}
+REPO=$(git config --get reviewboard.url || git config --get remote.origin.url)
+BRANCH=$(git branch-name)
+TICKET=$(git ticket)
+
+function diff_args() {
+    DIFF_RANGE=${1//:/...}
+    # Try to be smart http://matthew-brett.github.com/pydagogue/pain_in_dots.html#pain-in-dots
+    LOG_RANGE="`git rev-parse ${DIFF_RANGE} | tail -n1` `git rev-parse ${DIFF_RANGE} | head -n1`"
+    DESC=`git --no-pager log --pretty=oneline --abbrev-commit $LOG_RANGE 2>/dev/null | column -t -s '{' | less -FXRS`
+    GIT_DIFF_ARGS=${@:2}
+    #CMD_POST_REVIEW="post-review"
+    CMD_POST_REVIEW="rbt post"
+    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} -o --summary=${BRANCH} --description=\"${DESC}\" --branch=${BRANCH} --bugs-closed=${TICKET} --repository-url=${REPO} --diff-filename=- ${RBT_ARGS}"
+    echo -e "$CMD\n"
+    eval "$CMD"
+}
+diff_args $1

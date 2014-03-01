@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for k in $(cat); do
+    k2=`git show-ref --hash --dereference $k | tail -n1`
+    echo -e `git show -s --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k2 -- | head -n 1`\\t$k
+done | sort -r

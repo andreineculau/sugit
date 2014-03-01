@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Remove a file/folder from the GIT history for good
+
+Usage: ${me/git-/git } FILE|FOLDER
+EOF
+    exit 1
+}
+
+FILE=${1}
+
+git filter-branch -f --index-filter "git rm -r --cached --ignore-unmatch $FILE"
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now
+git gc --aggressive --prune=now

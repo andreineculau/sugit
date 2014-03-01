@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Output current branch name
+# Usage: ${me/git-/git }
+
+git symbolic-ref HEAD 2>/dev/null

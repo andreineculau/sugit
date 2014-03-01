@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+HISTFILE=~/.bash_history
+set -o history
+history | cut -c 8- | grep git | sort | uniq -c  | sort -n -r | head -n 15

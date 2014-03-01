@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+# Update a reviewboard review requesta
+# Usage: ${me/git-/git } ID "RANGE [DIFF_ARGS]" [REVIEW_ARGS]
+
+ID=${1}
+POST_REVIEW_ARGS=${@:3}
+git review ${*:2} -r ${ID}

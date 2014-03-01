@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Set current branch to track another
+
+Usage: ${me/git-/git } BRANCH
+EOF
+    exit 1
+}
+
+BRANCH=${1}
+[[ -z ${BRANCH} ]] && echo >&2 "Branch required" && exit 1
+
+git branch -u ${BRANCH}

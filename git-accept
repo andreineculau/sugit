@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Resolve all conflicts by accepting ours/theirs
+
+Usage: ${me/git-/git } ours|theirs
+EOF
+    exit 1
+}
+
+
+WHICH=${1}
+[[ -z ${WHICH} ]] && echo >&2 "ours or theirs?" && exit 1
+
+FILES="${@:2}"
+[[ -z ${FILES} ]] && FILES="."
+
+for f in ${FILES}; do
+    git checkout --${WHICH} -- ${f} 2>/dev/null || rm ${f} 2>/dev/null || true
+    git add --all ${f} || true
+done

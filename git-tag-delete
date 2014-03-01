@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Rename branch
+
+Usage: ${me/git-/git } TAG
+EOF
+    exit 1
+}
+
+TAG=${1}
+
+git tag -d ${TAG}

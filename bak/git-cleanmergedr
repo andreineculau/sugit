@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+BRANCHES="`git branch -r --merged ${1:master} | sed 's/ *origin\///' | grep -v 'master$'`"
+echo "$BRANCHES" | xargs -I% git push origin :%

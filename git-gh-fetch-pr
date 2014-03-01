@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+# Fetch Github pull requests
+# Usage: ${me/git-/git } [REMOTE]
+
+REMOTE=${1}
+
+[[ -z ${REMOTE} ]] || {
+    REMOTE=$(git branch-tracker | cut -d "/" -f1)
+    [[ -z ${REMOTE} ]] && echo >&2 "Remote required" && exit 1
+}
+
+git config --add remote.${REMOTE}.fetch "+refs/pull/*/head:refs/remotes/${REMOTE}/pr/*"
+git fetch ${REMOTE}
+
+#git fetch ${2:-origin} refs/pull/$1/head:pr/$1
