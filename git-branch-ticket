@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+# Show current branch's ticket
+# Usage: ${me/git-/git }
+
+
 STYLE=`git config branch.ticket`
 
 [[ -z "${STYLE}" ]] && exit 0

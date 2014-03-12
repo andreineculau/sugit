@@ -4,7 +4,7 @@ set -e
 STYLE=`git config branch.ticket`
 [[ -z "${STYLE}" ]] && git commit -m "${@}" && exit 0
 
-TICKET=`git ticket`
+TICKET=`git branch-ticket`
 [[ -z "${TICKET}" ]] && git commit -m "${@}" && exit 0
 
 MSG="${1}"

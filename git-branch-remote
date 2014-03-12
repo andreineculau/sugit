@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+# Output a branch's remote
+# Usage: ${me/git-/git } [BRANCH]
+
+BRANCH=${1}
+[[ -z ${BRANCH} ]] && BRANCH=$(git branch-name)
+
+git config branch.$BRANCH.remote 2>/dev/null

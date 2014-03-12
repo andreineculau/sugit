@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Delete a submodule
+
+Usage: ${me/git-/git } SUBMODULE
+EOF
+    exit 1
+}
+
+ROOT="$(git root || echo ".")/"
+GITMODULES="${ROOT}.gitmodules"
+SUBMODULE_REL="${1%1}"
+SUBMODULE="$(pwd)/${SUBMODULE_REL}"
+SUBMODULE="$(python -c "import os.path; print os.path.relpath('${SUBMODULE}', '${ROOT}')")"
+
+[[ ! -f ${GITMODULES} ]] && echo >&2 "${GITMODULES} not found" && exit 1
+[[ -z $(git config --file=${GITMODULES} submodule.${SUBMODULE}.url) ]] && echo "${SUBMODULE} not found" >&2 && exit 1
+
+git config --remove-section submodule.${SUBMODULE}
+git config --file=${GITMODULES} --remove-section submodule.${SUBMODULE}
+git rm --cached ${SUBMODULE_REL}

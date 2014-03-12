@@ -7,13 +7,25 @@ me=$(basename ${0})
     cat <<EOF >&2
 Rename branch
 
-Usage: ${me/git-/git } NEW_BRANCH
-Usage: ${me/git-/git } BRANCH NEW_BRANCH
+Usage: ${me/git-/git } NEW_BRANCH [--remote]
+Usage: ${me/git-/git } BRANCH NEW_BRANCH [--remote]
 EOF
     exit 1
 }
 
-BRANCH=${1}
-NEW_BRANCH=${2}
+NEW_BRANCH=${1}
+REMOTE=${2}
+[[ ${REMOTE} == "--remote" ]] && shift # cheating
+
+[[ $# -gt 1 ]] && {
+    BRANCH=${1}
+    NEW_BRANCH=${2}
+    REMOTE=${3}
+}
 
 git branch -m ${BRANCH} ${NEW_BRANCH}
+
+[[ ${REMOTE} == "--remote" ]] && {
+    git push $(git branch-remote) :${BRANCH}
+    git push $(git branch-remote) ${NEW_BRANCH}
+}

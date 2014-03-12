@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
+me=$(basename ${0})
+
+# Use SVN to fetch new commits
+echo "Why are you using <${me/git-/git }>? Use <git svn-sync>"
+# Usage: ${me/git-/git }
+
+
 set +e
 git changed &>/dev/null
 code=$?

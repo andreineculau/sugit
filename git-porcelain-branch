@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+set -e
 
 perl -pe 's/^..([^ ]+)(.*)/$1/'

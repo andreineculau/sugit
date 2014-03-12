@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
 
 #perl -pe 's|\s.*||' | perl -pe 's|^|/refs/tags/|'
-perl -pe 's|.*refs/tags/|/refs/tags|'
+#perl -pe 's|.*refs/tags/|refs/tags/|'
+perl -pe 's|.*refs/tags/||'

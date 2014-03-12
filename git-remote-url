@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+# Output a remote's url
+# Usage: ${me/git-/git } [REMOTE]
+
+REMOTE=${1}
+[[ -z ${REMOTE} ]] && REMOTE=$(git branch-remote)
+
+git config remote.$REMOTE.url 2>/dev/null

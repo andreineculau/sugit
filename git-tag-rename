@@ -5,15 +5,20 @@ me=$(basename ${0})
 
 [[ $# -lt 2 ]] && {
     cat <<EOF >&2
-Rename branch
+Rename tag
 
-Usage: ${me/git-/git } TAG NEW_TAG
+Usage: ${me/git-/git } TAG NEW_TAG [--remote]
 EOF
     exit 1
 }
 
 TAG=${1}
 NEW_TAG=${2}
+REMOTE=${3}
 
-git tag ${TAG} ${NEW_TAG}
-git tag -d ${TAG}
+git tag ${NEW_TAG} ${TAG}
+git tag-delete ${TAG} ${REMOTE}
+
+[[ ${REMOTE} == "--remote" ]] && {
+    git push $(git branch-remote) ${NEW_TAG}
+}

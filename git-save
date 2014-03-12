@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Stash current changes
+# Usage: ${me/git-/git }
+
+git stash save --include-untracked

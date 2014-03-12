@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Show differences between GIT and SVN ignores
+# Usage: ${me/git-/git }
+
 GIT_SVN_IGNORE=/tmp/git_svn_ignore
 GIT_IGNORED=/tmp/git_ignored
 SVN_IGNORED=/tmp/svn_ignored

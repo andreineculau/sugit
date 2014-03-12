@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-# Rebase with reword/edit/squash/fixup all commits starting with COMMIT
+# Rebase with reword/edit/squash/fixup all commits starting with COMMIT (defaults to common with tracker)
 # Usage: ${me/git-/git } reword|edit|squash|fixup [COMMIT]
 
 ACTION=${1:-pick}
 
 COMMIT=${2}
-[[ -z ${COMMIT} ]] && COMMIT=$(git branch-tracker)
+[[ -z ${COMMIT} ]] && COMMIT=$(git branch-common)
 [[ -z ${COMMIT} ]] && echo >&2 "Commit required" && exit 1
 
-GIT_EDITOR="sed -i -e '2,\\$s/^pick/${ACTION}/'" git rebase --interactive --keep-empty ${COMMIT}
+GIT_EDITOR="sed -i -e '2,\$s/^pick/${ACTION}/'" git rebase --interactive --keep-empty ${COMMIT}

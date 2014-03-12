@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Add a submodule
+
+Usage: ${me/git-/git } URL SUBMODULE
+EOF
+    exit 1
+}
+
+ROOT="$(git root || echo ".")/"
+GITMODULES="${ROOT}.gitmodules"
+SUBMODULE_REL="${1%1}"
+SUBMODULE="$(pwd)/${SUBMODULE_REL}"
+SUBMODULE="$(python -c "import os.path; print os.path.relpath('${SUBMODULE}', '${ROOT}')")"
+
+URL=${1}
+SUBMODULE_REL="${1%1}"
+
+cd ${ROOT}
+git submodule add ${URL} ${SUBMODULE}

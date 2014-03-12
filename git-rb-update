@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Update a reviewboard review request
+
+Usage: ${me/git-/git } ID "RANGE [DIFF_ARGS]" [RBT_ARGS]
+EOF
+    exit 1
+}
+
+ID=${1}
+POST_REVIEW_ARGS=${@:3}
+git rb-create ${@:2} -r ${ID}

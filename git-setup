@@ -21,4 +21,4 @@ if $(git root); then
 else
     git init
     git commit --allow-empty -m "${COMMIT}"
-end
+fi

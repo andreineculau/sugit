@@ -4,4 +4,6 @@ set -e
 # Output current branch name
 # Usage: ${me/git-/git }
 
-git symbolic-ref HEAD 2>/dev/null
+git rev-parse --abbrev-ref HEAD 2>/dev/null
+#git name-rev --name-only HEAD
+#git symbolic-ref HEAD 2>/dev/null

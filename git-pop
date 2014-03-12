@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# Squash all changes
+# Stash current changes
 # Usage: ${me/git-/git }
 
-git rebase-all squash $@
+git stash pop

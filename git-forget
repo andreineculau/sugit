@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+set -e
 
 me=$(basename ${0})
 
 [[ $# -lt 1 ]] && {
     cat <<EOF >&2
-Remove a file/folder from the GIT history for good
+Remove a file/folder from the GIT history "for good"
 
 Usage: ${me/git-/git } FILE|FOLDER
 EOF

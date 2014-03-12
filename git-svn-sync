@@ -3,6 +3,7 @@ set -e
 
 # Use GIT to fetch new branches/tags/heads
 # Never use SVN to do that; it will start fetching every single revision
+# Usage: ${me/git-/git }
 
 set +e
 git changed &>/dev/null

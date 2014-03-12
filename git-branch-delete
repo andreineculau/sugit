@@ -5,12 +5,18 @@ me=$(basename ${0})
 
 [[ $# -lt 1 ]] && {
     cat <<EOF >&2
-Rename branch
+Delete branch
 
-Usage: ${me/git-/git } BRANCH
+Usage: ${me/git-/git } BRANCH [--remote]
 EOF
     exit 1
 }
 
 BRANCH=${1}
+REMOTE=${2}
+
 git branch -D ${BRANCH}
+
+[[ ${REMOTE} == "--remote" ]] && {
+    git push $(git branch-remote) :${BRANCH}
+]

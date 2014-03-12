@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
-# Update a reviewboard review requesta
-# Usage: ${me/git-/git } ID "RANGE [DIFF_ARGS]" [RBT_ARGS]
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Create a reviewboard review request
+
+Usage: ${me/git-/git } "RANGE [DIFF_ARGS]" [RBT_ARGS]
+EOF
+    exit 1
+}
+
 
 RBT_ARGS=${@:2}
 REPO=$(git config --get reviewboard.url || git config --get remote.origin.url)
 BRANCH=$(git branch-name)
-TICKET=$(git ticket)
+TICKET=$(git branch-ticket)
 
 function diff_args() {
     DIFF_RANGE=${1//:/...}

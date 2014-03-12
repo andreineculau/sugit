@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+# Show GIT-SVN log
+# Usage: ${me/git-/git }
+
 git svn log --show-commit --oneline
