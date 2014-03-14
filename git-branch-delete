@@ -15,8 +15,8 @@ EOF
 BRANCH=${1}
 REMOTE=${2}
 
-git branch -D ${BRANCH}
+git branch -D ${BRANCH} || true
 
 [[ ${REMOTE} == "--remote" ]] && {
     git push $(git branch-remote) :${BRANCH}
-]
+}

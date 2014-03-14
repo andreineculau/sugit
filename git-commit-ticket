@@ -14,9 +14,9 @@ if [[ -n "${MSG}" ]]; then
     else
         if [[ "${STYLE}" == "trac" ]]; then
             TICKET="${TICKET}:"
-            [[ "${TICKET}" != "no ticket:" ]] && BUG="See ${TICKET}"
+            [[ "${TICKET}" != "no ticket:" ]] && TICKET="See ${TICKET}"
         elif [[ "${STYLE}" == "jira" ]]; then
-            BUG="[${TICKET}]"
+            TICKET="[${TICKET}]"
         fi
         git commit -m "${TICKET} ${MSG}" "${@:2}"
     fi

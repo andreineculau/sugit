@@ -15,9 +15,8 @@ EOF
 TAG=${1}
 REMOTE=${2}
 
-git tag -d ${TAG}
+git tag -d ${TAG} || true
 
 [[ ${REMOTE} == "--remote" ]] && {
     git push $(git branch-remote) :refs/tags/${TAG}
-] || {
 }

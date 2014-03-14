@@ -13,7 +13,7 @@ BRANCH=`git rev-parse --abbrev-ref HEAD`
 TICKET=`echo ${BRANCH} | sed 's/.*\(\<[[:alpha:]]\+\>\)\-\(\<[[:digit:]]\+\>\).*/\1-\2/g'`
 
 if [[ "${STYLE}" == "jira" ]]; then
-    [[ "${BRANCH}" == "${BUG}" ]] && exit 0
+    [[ "${BRANCH}" == "${TICKET}" ]] && exit 0
     echo ${TICKET}
 elif [[ "${STYLE}" == "trac" ]]; then
     [[ "${BRANCH}" == "${TICKET}" ]] && echo "no ticket" && exit 0
