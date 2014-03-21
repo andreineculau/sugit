@@ -14,7 +14,7 @@ EOF
 
 ROOT="$(git root || echo ".")/"
 GITMODULES="${ROOT}.gitmodules"
-SUBMODULE_REL="${1%1}"
+SUBMODULE_REL="${2%1}"
 SUBMODULE="$(pwd)/${SUBMODULE_REL}"
 SUBMODULE="$(python -c "import os.path; print os.path.relpath('${SUBMODULE}', '${ROOT}')")"
 

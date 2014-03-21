@@ -21,6 +21,11 @@ SUBMODULE="$(python -c "import os.path; print os.path.relpath('${SUBMODULE}', '$
 [[ ! -f ${GITMODULES} ]] && echo >&2 "${GITMODULES} not found" && exit 1
 [[ -z $(git config --file=${GITMODULES} submodule.${SUBMODULE}.url) ]] && echo "${SUBMODULE} not found" >&2 && exit 1
 
-git config --remove-section submodule.${SUBMODULE}
-git config --file=${GITMODULES} --remove-section submodule.${SUBMODULE}
-git rm --cached ${SUBMODULE_REL}
+git rm ${SUBMODULE_REL}
+
+#git reset HEAD ${SUBMODULE_REL}
+#git rm --cached ${SUBMODULE_REL}
+
+#git config --remove-section "submodule.${SUBMODULE}"
+#git config --file=${GITMODULES} --remove-section "submodule.${SUBMODULE}"
+#git add ${GITMODULES}
