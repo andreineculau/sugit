@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Try a cherry-pick from the current branch to another branch
+
+Usage: ${me/git-/git } BRANCH COMMIT
+EOF
+    exit 1
+}
+
+BRANCH="${1}"
+shift
+COMMIT="${@}"
+
+git checkout ${BRANCH}
+git cherry-pick ${COMMIT}
+git checkout -

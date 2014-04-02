@@ -14,6 +14,7 @@ Each script has usage info within itself.
 * [`git-setup`](git-setup)
 
 * [`git-changed`](git-changed)
+* [`git-cp-to`](git-cp-to)
 * [`git-porcelain-branch`](git-porcelain-branch)
 * [`git-porcelain-tag`](git-porcelain-tag)
 * [`git-sort`](git-sort)
