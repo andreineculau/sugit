@@ -53,8 +53,8 @@ Each script has usage info within itself.
 Started from https://gist.github.com/andreineculau/be39ee82ad36fcb85dcf
 
 * [`git-svn-clone`](git-svn-clone)
-* [`git-svn-sync`](git-svn-sync)
-* [`git-svn-ci`](git-svn-ci)
+* [`git-svn-sync`](git-svn-sync) (aliased [`git-svn-pull`](git-svn-pull))
+* [`git-svn-ci`](git-svn-ci) (aliased [`git-svn-push`](git-svn-push))
 
 Misc
 
