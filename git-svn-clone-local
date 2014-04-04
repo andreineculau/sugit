@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+SRC="${1}"
+DEST="${2}"
+
+#git clone --shared "${SRC}" "${DEST}" "${@:3}"
+git clone --reference "${SRC}" "${SRC}" "${DEST}" "${@:3}"
+FILES=(
+    config
+    packed-refs
+    refs
+    svn
+)
+for F in "${FILES[@]}"; do
+    cp -R ${SRC}/.git/${F} ${DEST}/.git/
+done
