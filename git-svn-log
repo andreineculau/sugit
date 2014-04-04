@@ -4,4 +4,40 @@ set -e
 # Show GIT-SVN log
 # Usage: ${me/git-/git }
 
-git svn log --show-commit --oneline
+#git svn log --show-commit --oneline
+
+function prepend_git_svn_id() {
+    LINE="${1}"
+    # assume commit is first on the line
+    COMMIT=$( \
+        echo "${LINE}" | \
+        sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | \
+        sed "s|\W*\(\w\+\).*|\1|" \
+        )
+    # faster than git svn find-rev
+    REV=$( \
+        git rev-list --format=%B --max-count=1 ${COMMIT} | \
+        grep 'git-svn-id' | \
+        sed "s|.*\@\([0-9]\+\).*|\1|" \
+        )
+    [[ -n ${REV} ]] && REV="r${REV} \| "
+    LINE=$( \
+        echo "${LINE}" | \
+        sed "s|${COMMIT}|${REV}${COMMIT}|" \
+        )
+    echo "${LINE}"
+}
+
+function parse() {
+    OLD_GIT_PAGER=$(git config --get core.pager)
+    while read LINE; do prepend_git_svn_id "${LINE}"; done | ${OLD_GIT_PAGER}
+}
+
+#git log --oneline -n1 | while read LINE; do prepend_git_svn_id "${LINE}"; done
+
+if [ -t 0 ]; then
+    LOG=${@:-git log --oneline}
+    ${LOG} | parse
+else
+    parse
+fi
