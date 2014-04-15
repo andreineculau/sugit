@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-# Fetch Github pull requests
-# Usage: ${me/git-/git } [REMOTE]
+# Fetch Github pull request(s)
+# Usage: ${me/git-/git } [REMOTE [PR]]
 
 REMOTE=${1}
+PR=${2}
+
+[[ ${REMOTE} =~ ^[0-9]+$ ] && {
+    PR=${REMOTE}
+    REMOTE=
+}
 
 [[ -z ${REMOTE} ]] || {
     REMOTE=$(git branch-tracker | cut -d "/" -f1)
@@ -12,6 +18,8 @@ REMOTE=${1}
 }
 
 git config --add remote.${REMOTE}.fetch "+refs/pull/*/head:refs/remotes/${REMOTE}/pr/*"
-git fetch ${REMOTE}
-
-#git fetch ${2:-origin} refs/pull/$1/head:pr/$1
+[[ -z ${PR} ]] || {
+    git fetch ${REMOTE} refs/pull/${PR}/head:refs/remotes/pr/${PR}
+} || {
+    git fetch ${REMOTE}
+}
