@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="${1}"
+
+cd $(git root)
+[[ -n "${DIR}" ]] && {
+    git config core.sparsecheckout true
+    echo "${DIR}" >> .git/info/sparse-checkout
+    git read-tree -mu HEAD
+} || {
+    git config --get core.sparsecheckout
+    cat .git/info/sparse-checkout 2>/dev/null
+}
