@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# Adapted from
+# http://bertrandbenoit.blogspot.se/2012/02/git-alias-to-cherry-pick-with-automatic.html
+#
+# Author: Bertrand BENOIT
+# Version: 1.0
+# Description: automatically formats commit message (according to git-svn-id info, or cherry picked ... one).
+
+messageFile="${1}"
+
+# Checks if there is a 'git-svn-id' information.
+if grep -q "git-svn-id" "${messageFile}"; then
+  # Works on message: 'git-svn-id'
+  exp='s/^.*git-svn-id:.*\/\([^@\/]\+\)@\([0-9]\+\).*$/(merge \1 r\2)/'
+  comment=$(cat "${messageFile}" | grep "git-svn-id" | sed "${exp}")
+  comment=${comment/\//\\\/}
+  sed -i "1 s/\(.*\)/\1 ${comment}/" "${messageFile}"
+elif grep -q "cherry picked from" "${messageFile}"; then
+  # Works on message: '(cherry picked from commit XXX)'
+  commitHash=$(cat "${messageFile}" | grep "(cherry picked from .*)" | sed -e 's/^.*commit \([a-f0-9]\+\).*$/\1/' | tail -1)
+  commitHash=$(git rev-parse --short ${commitHash})
+  branch=$(git branch -r --contains "${commitHash}" -vv | head -n 1 | sed -e 's/^[^\/]\+\/\([^ ]\+\).*$/\1/')
+  [[ -z "${branch}" ]] && branch=$(git branch --contains "${commitHash}" -vv | head -n 1 | sed -e 's/^[^[]*\[[^\/]\+\/\([^]:]\+\).*$/\1/') && commitHash="."
+  [[ -z "${branch}" ]] || {
+      # Only work on message if there's a tracking branch
+      comment="(merge ${branch} ${commitHash})"
+      comment=${comment/\//\\\/}
+      sed -i "1 s/\(.*\)/\1 ${comment}/" "${messageFile}"
+  }
+fi

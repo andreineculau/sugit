@@ -5,7 +5,7 @@ me=$(basename ${0})
 
 [[ $# -lt 2 ]] && {
     cat <<EOF >&2
-Try a cherry-pick from the current branch to another branch
+Try a cherry-pick from another branch to the current branch
 
 Usage: ${me/git-/git } BRANCH COMMIT
 EOF
@@ -16,6 +16,6 @@ BRANCH="${1}"
 shift
 COMMIT="${@}"
 
-git checkout ${BRANCH}
+# git checkout ${BRANCH}
 GIT_EDITOR="$(dirname ${0})/git-cp-msg" git cherry-pick -x -X patience -e ${COMMIT}
-git checkout -
+# git checkout -
