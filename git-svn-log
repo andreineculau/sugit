@@ -12,19 +12,21 @@ function prepend_git_svn_id() {
     COMMIT=$( \
         echo "${LINE}" | \
         sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | \
-        sed "s|\W*\(\w\+\).*|\1|" \
+        sed "s|^\W*\(\w\{7,\}\).*|\1|" \
         )
-    # faster than git svn find-rev
-    REV=$( \
-        git rev-list --format=%B --max-count=1 ${COMMIT} | \
-        grep 'git-svn-id' | \
-        sed "s|.*\@\([0-9]\+\).*|\1|" \
-        )
-    [[ -n ${REV} ]] && REV="r${REV} \| "
-    LINE=$( \
-        echo "${LINE}" | \
-        sed "s|${COMMIT}|${REV}${COMMIT}|" \
-        )
+    [[ "${COMMIT}" == "${LINE}" ]] || {
+        # faster than git svn find-rev
+        REV=$( \
+            git rev-list --format=%B --max-count=1 ${COMMIT} | \
+            grep 'git-svn-id' | \
+            sed "s|.*\@\([0-9]\+\).*|\1|" \
+            )
+        [[ -n ${REV} ]] && REV="r${REV} \| "
+        LINE=$( \
+            echo "${LINE}" | \
+            sed "s|${COMMIT}|${REV}${COMMIT}|" \
+            )
+    }
     echo "${LINE}"
 }
 
