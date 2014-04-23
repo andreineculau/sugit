@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Move
+# Usage: ${me/git-/git }
+
+git mv "${@}"

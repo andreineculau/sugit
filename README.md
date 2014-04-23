@@ -63,6 +63,7 @@ Started from https://gist.github.com/andreineculau/be39ee82ad36fcb85dcf
 Misc
 
 * [`git-svn-log`](git-svn-log)
+* [`git-svn-move`](git-svn-move)
 * [`git-svn-squash`](git-svn-squash)
 * [`git-svn-up`](git-svn-up)
 * [`git-svn-ignore-diff`](git-svn-ignore-diff)
