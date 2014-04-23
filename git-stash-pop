@@ -4,4 +4,4 @@ set -e
 # Stash current changes
 # Usage: ${me/git-/git }
 
-git stash pop
+git stash pop "${@}"

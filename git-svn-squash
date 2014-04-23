@@ -4,4 +4,4 @@ set -e
 # Squash all changes
 # Usage: ${me/git-/git }
 
-git rebase-all squash $@
+git rebase-all squash "${@}"

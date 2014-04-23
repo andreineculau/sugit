@@ -4,4 +4,4 @@ set -e
 # Stash current changes
 # Usage: ${me/git-/git }
 
-git stash save --include-untracked
+git stash save --include-untracked "${@}"
