@@ -1,6 +1,34 @@
 #!/usr/bin/env bash
 set -e
 
+me=$(basename ${0})
+
+[[ $# -lt 5 ]] && {
+    cat <<EOF >&2
+Clone a SVN repository with a GIT mirror
+
+Usage: ${me/git-/git } SVN_REMOTE AUTHORS_FILE GIT_REMOTE BRANCH FOLDER [GIT_SVN_ARGS]
+
+Example ALL BRANCHES
+${me/git-/git } svn://svn.handbrake.fr/HandBrake Authors.txt https://github.com/HandBrake/HandBrake.git trunk handbrake -s
+
+Example ONE SVN BRANCH/FOLDER
+${me/git-/git } svn://svn.handbrake.fr/HandBrake/trunk Authors.txt https://github.com/HandBrake/HandBrake.git trunk handbrake
+
+
+* GIT_SVN_ARGS -r (REVISION RANGE)
+you can speed up the process by adding "-r r3000:HEAD" or another recent revision
+you will still have the whole (GIT) history, but only r3000+ commits will have a git-svn-id
+
+
+* AUTHORS_FILE
+can be created if you already have a clone of the SVN_REMOTE
+svn log ^/ --xml | grep -P "^<author" | sort -u | perl -pe 's/<author>(.*?)<\/author>/$1 = /' > Authors.txt
+
+EOF
+    exit 1
+}
+
 # Usage: git svn-clone <svn_remote> <svn_authors> <git_mirror_remote> <branch> <dir> <git-svn_args>
 
 # ref http://kris.me.uk/2010/10/01/svn-master-with-git-mirrors.html
@@ -49,7 +77,7 @@ git config svn.authorsfile ${SVN_AUTHORS}
 # Setup sync to/from subversion
 git svn init --prefix=svn/ ${SVN} ${SVN_ARGS}
 # In case this is a clone of a specific SVN folder (vs an entire repo with trunk/branches/tags)
-sed "s/\(refs\/remotes\/svn\/\)git\-svn/\1${BRANCH}/" -i .git/config
+sed "s/\(refs\/remotes\/svn\/\)git\-svn/\1${BRANCH}/" -i .git/config || true
 # Sync subversion
 git svn rebase
 
