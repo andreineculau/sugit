@@ -62,6 +62,7 @@ Started from https://gist.github.com/andreineculau/be39ee82ad36fcb85dcf
 
 Misc
 
+* [`git-svn-delete`](git-svn-delete)
 * [`git-svn-log`](git-svn-log)
 * [`git-svn-move`](git-svn-move)
 * [`git-svn-squash`](git-svn-squash)

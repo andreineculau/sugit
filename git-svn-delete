@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Delete
+# Usage: ${me/git-/git }
+
+git rm "${@}"
