@@ -9,7 +9,7 @@ set +e
 git changed
 code=$?
 set -e
-[[ $code != 0 ]] && git save
+[[ $code != 0 ]] && git stash-save
 git pull
 git svn rebase $@
-[[ $code != 0 ]] && git pop
+[[ $code != 0 ]] && git stash-pop

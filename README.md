@@ -47,8 +47,9 @@ Each script has usage info within itself.
 
 ## Stash
 
-* [`git-save`](git-save)
-* [`git-pop`](git-pop)
+* [`git-stash-save`](git-stash-save)
+* [`git-stash-pop`](git-stash-pop)
+* [`git-stash-list`](git-stash-list)
 
 
 ## SVN
