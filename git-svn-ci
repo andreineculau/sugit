@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+git staged && git commit
+
 set +e
 git changed &>/dev/null
 code=$?
