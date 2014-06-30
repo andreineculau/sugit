@@ -7,7 +7,7 @@ set -e
 REMOTE=${1}
 PR=${2}
 
-[[ ${REMOTE} =~ ^[0-9]+$ ] && {
+[[ ${REMOTE} =~ ^[0-9]+$ ]] && {
     PR=${REMOTE}
     REMOTE=
 }
