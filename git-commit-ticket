@@ -14,7 +14,7 @@ if [[ -n "${MSG}" ]]; then
     else
         if [[ "${STYLE}" == "trac" ]]; then
             TICKET="${TICKET}:"
-            # [[ "${TICKET}" != "no ticket:" ]] && TICKET="See ${TICKET}"
+            [[ "${TICKET}" != "no ticket:" ]] && TICKET="See ${TICKET}"
         elif [[ "${STYLE}" == "jira" ]]; then
             TICKET="[${TICKET}]"
         fi
