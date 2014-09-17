@@ -9,7 +9,7 @@ TICKET=`git branch-ticket`
 
 MSG="${1}"
 if [[ -n "${MSG}" ]]; then
-    if $(echo "${MSG}" | grep -q "no ticket\|#\d\+"); then
+    if $(echo "${MSG}" | grep -q "no ticket\|#[0-9]\+"); then
         git commit -m "${@}"
     else
         if [[ "${STYLE}" == "trac" ]]; then
