@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Create a GIT clone of an SVN repository
+
+Usage: ${me/git-/git } SVN_REMOTE AUTHORS_FILE GIT_REMOTE FOLDER [GIT_SVN_ARGS]
+
+Example
+${me/git-/git } https://ctags.svn.sourceforge.net/svnroot/ctags Authors.txt ctags git@localhost:ctags.git --stdlayout
+EOF
+    exit 1
+}
+
+SVN=${1}
+SVN_AUTHORS=${2}
+GIT=${3}
+DIR=${4}
+SVN_ARGS=${@:5}
+
+mkdir ${DIR}
+cd ${DIR}
+
+# based on http://stackoverflow.com/a/12552604/465684
+git svn init --prefix=svn/ ${SVN} ${SVN_ARGS}
+git config svn.authorsfile ${SVN_AUTHORS}
+sed "s/refs\/remotes\/svn/refs/heads/" -i .git/config || true
+git remote add clone ${GIT}
+git svn-sycn2git-update

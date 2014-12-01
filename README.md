@@ -60,8 +60,18 @@ Started from https://gist.github.com/andreineculau/be39ee82ad36fcb85dcf
 * [`git-svn-sync`](git-svn-sync) (aliased [`git-svn-pull`](git-svn-pull))
 * [`git-svn-ci`](git-svn-ci) (aliased [`git-svn-push`](git-svn-push))
 
+## SVN SYNC2GIT
+
+Started from https://github.com/dpocock/sync2git
+Started from http://stackoverflow.com/a/12552604/465684
+
+* [`git-svn-sync2git-create`](git-svn-sync2git-create)
+* [`git-svn-sync2git-update`](git-svn-sync2git-update)
+
+
 Misc
 
+* [`git-svn-clone-local`](git-svn-clone-local)
 * [`git-svn-delete`](git-svn-delete)
 * [`git-svn-log`](git-svn-log)
 * [`git-svn-move`](git-svn-move)
