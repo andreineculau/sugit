@@ -71,6 +71,9 @@ git config merge.ff only
 git remote add origin ${GIT}
 git fetch origin
 
+# Set default remotes
+git config remotes.default 'origin svn'
+
 # Set the Authors file
 git config svn.authorsfile ${SVN_AUTHORS}
 
