@@ -28,5 +28,5 @@ cd ${DIR}
 git svn init --prefix=svn/ ${SVN} ${SVN_ARGS}
 git config svn.authorsfile ${SVN_AUTHORS}
 sed "s/refs\/remotes\/svn/refs/heads/" -i .git/config || true
-git remote add clone ${GIT}
+git remote add origin ${GIT}
 git svn-sycn2git-update

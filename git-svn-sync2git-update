@@ -3,11 +3,36 @@ set -e
 
 me=$(basename ${0})
 
+PUSH_ARGS=${PUSH_ARGS:-"--force"}
+REMOTE=${REMOTE:-origin}
+LOCK_FILE=${LOCK_FILE:-/tmp/fetch.lock}
+
+[[ -f ${LOCK_FILE} ]] && {
+    LOCK_PID=$(cat ${LOCK_FILE})
+    ps -p $LOCK_PID > /dev/null && {
+        echo "Aborting due to lock, ${LOCK_FILE} ${LOCK_PID}"
+        exit 0
+    } || {
+        rm ${LOCK_FILE}
+    }
+}
+
+function finish {
+  rm -f ${LOCK_FILE}
+}
+trap finish EXIT
+
 echo
 echo "----------------------------"
 date
+echo "PID       : $$"
+echo "LOCK_FILE : ${LOCK_FILE}"
+echo "REMOTE    : ${REMOTE}"
 echo
 
+echo $$ > ${LOCK_FILE}
+
+cd /tmp/tailf-src
 git svn fetch
-git push --tags clone
-git push --all clone
+git push ${PUSH_ARGS} --tags ${REMOTE}
+git push ${PUSH_ARGS} --all ${REMOTE}
