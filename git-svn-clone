@@ -80,7 +80,10 @@ git config svn.authorsfile ${SVN_AUTHORS}
 # Setup sync to/from subversion
 git svn init --prefix=svn/ ${SVN} ${SVN_ARGS}
 # In case this is a clone of a specific SVN folder (vs an entire repo with trunk/branches/tags)
-sed "s/\(refs\/remotes\/svn\/\)git\-svn/\1${BRANCH}/" -i .git/config || true
+sed "s/\(refs\/remotes\/svn\/\)git\-svn/\1${BRANCH}/" .git/config > .git/config.new && {
+    mv .git/config .git/config.bak || true
+    mv .git/config.new .git/config
+} || true
 # Sync subversion
 git svn rebase
 
