@@ -4,4 +4,8 @@ set -e
 # Stash current changes
 # Usage: ${me/git-/git }
 
-git stash save --include-untracked "${@}"
+# DO NOT USE -u/--include-untracked
+# SEE http://blog.icefusion.co.uk/git-stash-can-delete-ignored-files-git-stash-u/
+#git stash save --include-untracked "${@}"
+#git stash save --all "${@}"
+git stash save "${@}"
