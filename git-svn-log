@@ -32,7 +32,9 @@ function prepend_git_svn_id() {
 
 function parse() {
     OLD_GIT_PAGER=$(git config --get core.pager)
-    while read LINE; do prepend_git_svn_id "${LINE}"; done | ${OLD_GIT_PAGER}
+    # See http://stackoverflow.com/questions/12916352/shell-script-read-missing-last-line
+    # for the <or> statement
+    while read LINE || [[ -n "${LINE}" ]]; do prepend_git_svn_id "${LINE}"; done | ${OLD_GIT_PAGER}
 }
 
 #git log --oneline -n1 | while read LINE; do prepend_git_svn_id "${LINE}"; done
