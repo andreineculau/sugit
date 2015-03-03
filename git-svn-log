@@ -16,11 +16,7 @@ function prepend_git_svn_id() {
         )
     [[ "${COMMIT}" == "${LINE}" ]] || {
         # faster than git svn find-rev
-        REV=$( \
-            git rev-list --format=%B --max-count=1 ${COMMIT} | \
-            grep 'git-svn-id' | \
-            sed "s|.*\@\([0-9]\+\).*|\1|" \
-            )
+        REV=$(git svn-id ${COMMIT})
         [[ -n ${REV} ]] && REV="r${REV} \| "
         LINE=$( \
             echo "${LINE}" | \
