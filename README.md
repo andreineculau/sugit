@@ -72,6 +72,7 @@ Started from http://stackoverflow.com/a/12552604/465684
 Misc
 
 * [`git-svn-clone-local`](git-svn-clone-local)
+* [`git-svn-clone-sync`](git-svn-clone-sync)
 * [`git-svn-delete`](git-svn-delete)
 * [`git-svn-log`](git-svn-log)
 * [`git-svn-move`](git-svn-move)
