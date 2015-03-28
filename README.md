@@ -1,6 +1,6 @@
 # SuGIT = Su(gar)GIT
 
-My collection of GIT commands. **NOTE** running Mac OSX, Bash 4.
+My collection of GIT commands. **NOTE** only tested on Darwin, Bash 4, GIT 2.3+.
 
 Each script has usage info within itself.
 
