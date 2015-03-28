@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+git log --pretty=format:"%s" "${@}" | grep "#[0-9]\+" | sed "s/.*#\([0-9]\+\).*/\1/" | sort | uniq

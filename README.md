@@ -9,6 +9,7 @@ Each script has usage info within itself.
 * [`git-accept`](git-accept)
 * [`git-commit-ticket`](git-commit-ticket)
 * [`git-forget`](git-forget)
+* [`git-log-tickets`](git-log-tickets)
 * [`git-rebase-all`](git-rebase-all)
 * [`git-root`](git-root)
 * [`git-setup`](git-setup)
