@@ -5,4 +5,4 @@ SRC="${1}"
 DEST="${2}"
 BRANCH="${3}"
 
-git clone-sync "${SRC}" "${DEST}" "${BRANCH}" "${@:4}"
+git clone-symlink "${SRC}" "${DEST}" "${BRANCH}" "${@:4}"

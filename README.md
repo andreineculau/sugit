@@ -7,6 +7,7 @@ Each script has usage info within itself.
 ## General utilities
 
 * [`git-accept`](git-accept)
+* [`git-clone-symlink`](git-clone-symlink) (copy of the git-new-workdir present in git's contrib)
 * [`git-commit-ticket`](git-commit-ticket)
 * [`git-forget`](git-forget)
 * [`git-log-tickets`](git-log-tickets)
@@ -73,7 +74,7 @@ Started from http://stackoverflow.com/a/12552604/465684
 Misc
 
 * [`git-svn-clone-local`](git-svn-clone-local)
-* [`git-svn-clone-sync`](git-svn-clone-sync)
+* [`git-svn-clone-symlink`](git-svn-clone-symlink)
 * [`git-svn-delete`](git-svn-delete)
 * [`git-svn-log`](git-svn-log)
 * [`git-svn-move`](git-svn-move)
