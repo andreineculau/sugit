@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# Get/set branch description
+# Usage: ${me/git-/git }
+
+git config branch.$(git branch-name).description ${@}

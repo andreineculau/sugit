@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+
+# Output list of branches and their descriptions
+# Usage: ${me/git-/git }
+
+function parse() {
+    # See http://stackoverflow.com/questions/12916352/shell-script-read-missing-last-line
+    # for the <or> statement
+    while read LINE || [[ -n "${LINE}" ]]; do
+        local BRANCH=$(
+            echo ${LINE//\*/} | \
+                sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | \
+                tr -s ' ' | \
+                cut -d' ' -f2
+              )
+        local DESC=$(git config --null "branch.${BRANCH}.description" | head -n1 || echo -n "")
+        [[ -z ${DESC} ]] || DESC=" (${DESC})"
+        echo -e "${LINE}" | sed -e "s|${BRANCH}|${BRANCH}${DESC}|"
+    done
+}
+
+if [ -t 0 ]; then
+    LIST=${@:-git branch --list}
+    ${LIST} | parse ${@}
+else
+    parse ${@}
+fi
