@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Get command name which is in progress, if any
+# Usage: ${me/git-/git }
+
+# based on http://repo.or.cz/git.git/blob_plain/master:/contrib/completion/git-prompt.sh
+
+g="$(git rev-parse --git-dir)"
+
+if [ -d "$g/rebase-merge" ]; then
+	# __git_eread "$g/rebase-merge/head-name" b
+	# __git_eread "$g/rebase-merge/msgnum" step
+	# __git_eread "$g/rebase-merge/end" total
+	# if [ -f "$g/rebase-merge/interactive" ]; then
+	# 	r="|REBASE-i"
+	# else
+	# 	r="|REBASE-m"
+	# fi
+    r="rebase"
+else
+	if [ -d "$g/rebase-apply" ]; then
+		# __git_eread "$g/rebase-apply/next" step
+		# __git_eread "$g/rebase-apply/last" total
+		# if [ -f "$g/rebase-apply/rebasing" ]; then
+		# 	__git_eread "$g/rebase-apply/head-name" b
+		# 	r="|REBASE"
+		# elif [ -f "$g/rebase-apply/applying" ]; then
+		# 	r="|AM"
+		# else
+		# 	r="|AM/REBASE"
+		# fi
+        r="rebase"
+	elif [ -f "$g/MERGE_HEAD" ]; then
+		# r="|MERGING"
+        r="merge"
+	elif [ -f "$g/CHERRY_PICK_HEAD" ]; then
+		# r="|CHERRY-PICKING"
+        r="cherry-pick"
+	elif [ -f "$g/REVERT_HEAD" ]; then
+		# r="|REVERTING"
+        r="revert"
+	elif [ -f "$g/BISECT_LOG" ]; then
+		# r="|BISECTING"
+        r="bisect"
+	fi
+fi
+
+echo $r
