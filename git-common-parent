@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Find the latest common parent of two refs
+
+Usage: ${me/git-/git } REF1 REF2
+EOF
+    exit 1
+}
+
+REF1=${1}
+REF2=${2}
+
+git common-parents ${REF1} ${REF2} | tail -1

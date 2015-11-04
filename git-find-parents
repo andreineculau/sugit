@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+# Find the latest common parents between a ref (defaults to HEAD)
+# and other refs (defaults to refs/heads)
+
+# Usage: ${me/git-/git } [MATCH_REFS] [HEAD]
+
+MATCH_REFS=${1:-refs/heads}
+HEAD=${2:-HEAD}
+
+git rev-list --first-parent ${HEAD} | while read REF; do
+    BRANCH_REFS=$(git branch --contains ${REF} | cut -c 3- | sed "s/^/refs\/heads\//" 2>/dev/null | grep "^${MATCH_REFS}" || true)
+    [[ -n ${BRANCH_REFS} ]] && echo "${BRANCH_REFS}" || true
+    TAG_REFS=$(git tag --contains ${AREF} | sed "s/^/refs\/tags\//" 2>/dev/null | grep "^${MATCH_REFS}" || true)
+    [[ -n ${TAG_REFS} ]] && echo "${TAG_REFS}" || true
+    [[ -z ${BRANCH_REFS} && -z ${TAG_REFS} ]] || exit 0
+done
+
+exit 1
