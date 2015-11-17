@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Skip command which is in progress, if any
+# Usage: ${me/git-/git }
+
+git $(git inprogress) --skip ${@}
