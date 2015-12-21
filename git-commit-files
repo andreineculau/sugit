@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+MESSAGE="$(git diff --cached --name-only | tr '\n' ' ')"
+
+[[ -n ${MESSAGE} ]] && {
+  git commit -m "modified ${MESSAGE}" $@
+} || {
+  git commit $@
+}
