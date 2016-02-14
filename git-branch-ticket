@@ -10,7 +10,7 @@ STYLE=`git config --get branch.ticket`
 [[ -z "${STYLE}" ]] && exit 0
 
 BRANCH=`git rev-parse --abbrev-ref HEAD`
-TICKET=`echo ${BRANCH} | grep --only-matching '[A-Za-z\-_]\+[0-9]\+' || echo ''`
+TICKET=`echo ${BRANCH} | grep --only-matching '[A-Za-z\-_]\+[0-9]\+' | head -1 || echo ''`
 
 if [[ "${STYLE}" == "jira" ]]; then
     [[ "${TICKET}" == "" ]] && exit 0
