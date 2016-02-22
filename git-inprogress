@@ -21,15 +21,17 @@ else
 	if [ -d "$g/rebase-apply" ]; then
 		# __git_eread "$g/rebase-apply/next" step
 		# __git_eread "$g/rebase-apply/last" total
-		# if [ -f "$g/rebase-apply/rebasing" ]; then
-		# 	__git_eread "$g/rebase-apply/head-name" b
-		# 	r="|REBASE"
-		# elif [ -f "$g/rebase-apply/applying" ]; then
-		# 	r="|AM"
-		# else
-		# 	r="|AM/REBASE"
-		# fi
-        r="rebase"
+		if [ -f "$g/rebase-apply/rebasing" ]; then
+			# __git_eread "$g/rebase-apply/head-name" b
+			# r="|REBASE"
+            r="rebase"
+		elif [ -f "$g/rebase-apply/applying" ]; then
+			# r="|AM"
+            r="am"
+		else
+			# r="|AM/REBASE"
+            r="am"
+		fi
 	elif [ -f "$g/MERGE_HEAD" ]; then
 		# r="|MERGING"
         r="merge"
