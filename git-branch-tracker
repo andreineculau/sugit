@@ -7,4 +7,4 @@ set -e
 BRANCH=${1}
 # [[ -z ${BRANCH} ]] && BRANCH=$(git branch-name)
 
-git rev-parse --abbrev-ref --symbolic-full-name ${BRANCH}@{u} 2>/dev/null
+git rev-parse --abbrev-ref --symbolic-full-name ${BRANCH}@{u} 2>/dev/null | sed "s/@{u}//"
