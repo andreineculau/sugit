@@ -8,6 +8,8 @@ COMMIT=${1:-"[empty] initial commit"}
 if $(git root); then
     BRANCH=${2:-$(git branch-name)}
 
+    git stash
+
     # first you need a new empty branch
     BRANCH_TMP=${BRANCH}_tmp
     git symbolic-ref HEAD refs/heads/${BRANCH_TMP}
@@ -18,6 +20,8 @@ if $(git root); then
     git commit --allow-empty -m "${COMMIT}"
     git rebase --onto ${BRANCH_TMP} --root ${BRANCH}
     git branch -d ${BRANCH_TMP}
+
+    git stash pop
 else
     git init
     git commit --allow-empty -m "${COMMIT}"
