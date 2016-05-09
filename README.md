@@ -40,10 +40,12 @@ Each script has usage info within itself.
 * [`git-tag-rename`](git-tag-rename)
 
 
-## Integration: ReviewBoard, Github
+## Integration: ReviewBoard, Crucible, Github
 
 * [`git-rb-create`](git-rb-create)
 * [`git-rb-update`](git-rb-update)
+* [`git-cru-create`](git-cru-create)
+* [`git-cru-update`](git-cru-update)
 * [`git-gh-fetch-pr`](git-gh-fetch-pr)
 
 

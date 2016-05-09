@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Update a Crucible review request
+
+Usage: ${me/git-/git } ID "RANGE [DIFF_ARGS]" [CRU_ARGS]
+EOF
+    exit 1
+}
+
+PROJECT=${1}
+git cru-create ${@:2}

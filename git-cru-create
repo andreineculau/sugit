@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Create a Crucible review request
+
+Usage: ${me/git-/git } "RANGE [DIFF_ARGS]" [CRU_ARGS]
+EOF
+    exit 1
+}
+
+
+CRU_ARGS=${@:2}
+PROJECT=${PROJECT:-$(git config --get crucible.project)}
+BRANCH=$(git branch-name)
+TICKET=$(git branch-ticket)
+TICKET=${TICKET/no ticket/}
+
+function diff_args() {
+    DIFF_RANGE=${1//:/...}
+    # Try to be smart http://matthew-brett.github.com/pydagogue/pain_in_dots.html#pain-in-dots
+    LOG_RANGE="`git rev-parse ${DIFF_RANGE} | tail -n1` `git rev-parse ${DIFF_RANGE} | head -n1`"
+    DESC=`git --no-pager log --pretty=oneline --abbrev-commit $LOG_RANGE 2>/dev/null | column -t -s '{' | less -FXRS`
+    GIT_DIFF_ARGS=${@:2}
+    #CMD_POST_REVIEW="post-review"
+    CMD_POST_REVIEW="crucible.py"
+    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} ${PROJECT} --title=\"${BRANCH}\" ${CRU_ARGS}"
+    echo -e "$CMD\n"
+    eval "$CMD"
+}
+diff_args $1
