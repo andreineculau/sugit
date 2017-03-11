@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+# Push and trigger TeamCity remote-run
+# - push HEAD to tracking branch
+# - push HEAD to origin ref/remote-run/$(basename git-branch-name)
+# Usage: ${me/git-/git }
+
+BRANCH=$(git branch-name)
+git push -u "$@"
+
+REMOTE=$(git config "branch.${BRANCH}.remote")
+REMOTERUN_REF=refs/remote-run/$(basename ${BRANCH})
+git push -f ${REMOTE} "HEAD:${REMOTERUN_REF}"
+
+# git push ${REMOTE} "HEAD:${BRANCH}" "HEAD:${REMOTERUN_REF}" "$@"
