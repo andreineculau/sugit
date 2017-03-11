@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+# Output submodule status
+# Usage: ${me/git-/git }
+
+cd $(git root)
+for submodule in $(git submodule-list); do
+    echo -n "${submodule}: "
+    (
+        cd ${submodule}
+        TAG=$(git describe --tags --exact-match HEAD)
+        [[ -n ${TAG} ]] && echo -n ${TAG} || echo -n $(git rev-parse --short HEAD)
+        [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo " dirty" || true
+    )
+done

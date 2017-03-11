@@ -4,4 +4,5 @@ set -e
 # Output submodule paths
 # Usage: ${me/git-/git }
 
-git config --list | grep "^submodule" | sed "s/^submodule\.//" | sed "s/\.url=.*//"
+git .gitmodules | grep "path =" | sed "s,.*path = ,,"
+# git config --list | grep "^submodule" | sed "s/^submodule\.//" | sed "s/\.url=.*//"
