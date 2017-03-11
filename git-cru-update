@@ -12,5 +12,7 @@ EOF
     exit 1
 }
 
-PROJECT=${1}
+ID=${1}
+PROJECT=${PROJECT:-$(git config --get crucible.project)}
+export PROJECT=${PROJECT}-${ID}
 git cru-create ${@:2}
