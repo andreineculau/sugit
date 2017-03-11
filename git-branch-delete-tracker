@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+# Delete a branch's (default: current) tracker
+# Usage: ${me/git-/git } [BRANCH]
+
+BRANCH=${1}
+# [[ -z ${BRANCH} ]] && BRANCH=$(git branch-name)
+
+ARGS=$(git branch-tracker ${BRANCH} | sed "s/\// :/")
+[[ -n ${ARGS} ]] && eval "git push ${ARGS}"
