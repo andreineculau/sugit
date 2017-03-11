@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+# Open repository/commit/commit-range in gitweb
+# Usage: ${me/git-/git } [COMMIT_OR_RANGE]
+
+
+OPEN_CMD=$(which open 2>/dev/null || which xdg-open 2>/dev/null || which gnome-open 2>/dev/null || echo "OPEN_NOT_FOUND")
+GITWEB_URL=${GITWEB_URL:-$(git config --get gitweb.url)}
+GITWEB_P=${GITWEB_P:-$(git config --get gitweb.p)}
+
+case $1 in
+    *..*)
+        RANGE=$1
+        HASH1=$(git log -n1 --pretty=format:%h --reverse ${RANGE} 2>/dev/null)
+        HASH1=$(git log -n1 --pretty=format:%h ${HASH1}~ 2>/dev/null)
+        HASH2=$(git log -n1 --pretty=format:%h ${RANGE} 2>/dev/null)
+        URL="${GITWEB_URL}?p=${GITWEB_P};a=commitdiff;h=${HASH2};hp=${HASH1}"
+        ;;
+    *)
+        COMMIT=$1
+        [[ -z ${COMMIT} ]] && {
+            URL="${GITWEB_URL}?p=${GITWEB_P};a=summary"
+        } || {
+            HASH=$(git log -n1 ${COMMIT} --pretty=format:%h 2>/dev/null)
+            URL="${GITWEB_URL}?p=${GITWEB_P};a=commitdiff;h=${HASH}"
+        }
+        ;;
+esac
+
+echo -e "${OPEN_CMD} ${URL}\n"
+${OPEN_CMD} ${URL}
