@@ -28,7 +28,7 @@ function diff_args() {
     GIT_DIFF_ARGS=${@:2}
     #CMD_POST_REVIEW="post-review"
     CMD_POST_REVIEW="crucible.py"
-    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} --title=\"${BRANCH}\" --objectives=\"${DESC}\" --issue=\"${TICKET}\" -r ${REPO} ${CRU_ARGS} ${PROJECT}"
+    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} --title=\"${BRANCH}\" --objectives=\"${DESC//\"/\\\"}\" --issue=\"${TICKET}\" -r ${REPO} ${CRU_ARGS} ${PROJECT}"
     echo -e "$CMD\n"
     eval "$CMD"
 }
