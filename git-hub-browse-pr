@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Browse the Github PR of a commit.
+
+Usage: ${me/git-/git } COMMIT TARGET_BRANCH
+
+TARGET_BRANCH is optional. Defaults to HEAD.
+EOF
+    exit 1
+}
+
+COMMIT="${1}"
+TARGET_BRANCH="${2:-HEAD}"
+
+PR=$(git log -1 --merges --ancestry-path ${COMMIT}..${TARGET_BRANCH} --format=%s | \
+         grep --only-matching "Merge pull request #[0-9]\+" | \
+         sed "s/Merge pull request #//")
+[[ -n "${PR}" ]] || exit 1
+hub browse -- issues/${PR}
