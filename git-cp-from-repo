@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+set -x
+
+me=$(basename ${0})
+
+[[ $# -lt 2 ]] && {
+    cat <<EOF >&2
+Try a cherry-pick from another repo to the current repo
+
+Usage: ${me/git-/git } GIT_REPO COMMIT
+EOF
+    exit 1
+}
+
+GIT_REPO="${1}"
+shift
+COMMIT="${@}"
+
+# git checkout ${BRANCH}
+(
+    cd ${GIT_REPO}
+    git format-patch --stdout ${COMMIT}
+) | git am --3way
+# git checkout -
