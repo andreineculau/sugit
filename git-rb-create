@@ -27,7 +27,7 @@ function diff_args() {
     GIT_DIFF_ARGS=${@:2}
     #CMD_POST_REVIEW="post-review"
     CMD_POST_REVIEW="rbt post"
-    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} -o --summary=\"${BRANCH}\" --description=\"${DESC}\" --branch=\"${BRANCH}\" --bugs-closed=\"${TICKET}\" --repository-type=\"git\" --repository-url=\"${REPO}\" --diff-filename=- ${RBT_ARGS}"
+    CMD="git diff --patience --full-index --ignore-submodules ${DIFF_RANGE} ${GIT_DIFF_ARGS} | ${CMD_POST_REVIEW} -o --summary=\"${BRANCH}\" --description=\"${DESC//\"/\\\"}\" --branch=\"${BRANCH}\" --bugs-closed=\"${TICKET}\" --repository-type=\"git\" --repository-url=\"${REPO}\" --diff-filename=- ${RBT_ARGS}"
     echo -e "$CMD\n"
     eval "$CMD"
 }
