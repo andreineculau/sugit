@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
+
 # From https://raw.github.com/sschuberth/git-scripts/master/git-commit-size.sh
-#!/bin/sh
 
 if [ $# -ne 1 ]; then
     echo "Rationale : Get the total size of all files added by the specified commit."
