@@ -3,4 +3,12 @@
 # Continue command which is in progress, if any
 # Usage: ${me/git-/git }
 
-git $(git inprogress) --continue ${@}
+GIT_IN_PROGRESS=$(git inprogress)
+
+case ${GIT_IN_PROGRESS} in
+    cherry-pick)
+        git commit --no-edit
+        ;;
+esac
+
+GIT_EDITOR=true git ${GIT_IN_PROGRESS} --continue ${@}
