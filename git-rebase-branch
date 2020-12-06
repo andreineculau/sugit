@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+me=$(basename ${0})
+
+[[ $# -lt 1 ]] && {
+    cat <<EOF >&2
+Rebase branch into current HEAD
+
+Usage: ${me/git-/git } BRANCH
+EOF
+    exit 1
+}
+
+BRANCH=${1}
+shift
+
+git rebase --onto ${BRANCH} HEAD^ ${@}
